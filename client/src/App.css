@@ -1,0 +1,38 @@
+.button__container {
+  margin-top: 200px;
+  text-align: center;
+}
+
+.button {
+  background-color:green;
+  border: none;
+  color: white;
+  font-size: 16px;
+  height: 40px;
+  width: 200px;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 0.017s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #700;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App {
+  text-align: center;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
