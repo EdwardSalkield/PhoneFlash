@@ -27,6 +27,7 @@ Client to server:
 		...
 	],
 	"time": currenttime
+	"status": "ok"/"GPS ERROR"
 
 }
 
@@ -35,6 +36,10 @@ Client to server:
 {	"status": "ok"
 }
 
+< POST stop
+>
+{	"status": "ok"
+}
 
 COMMANDS
 [
