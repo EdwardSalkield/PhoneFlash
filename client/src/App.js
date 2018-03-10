@@ -105,7 +105,7 @@ class App extends Component {
         <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
         <button className='button' onClick={this.getBuffer}>Buffer me up daddy</button>
         <button className='button' onClick={this.ping}>Ping me daddy</button>
-        <button className='button' onClick={this.toggleTorch}>Flash me daddy</button>
+        <button className='switch' onClick={this.toggleTorch}>Flash me daddy</button>
       </div>
       </div>
     )
