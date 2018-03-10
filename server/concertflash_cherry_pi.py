@@ -8,13 +8,13 @@ class flashserver(object):
         return json.dumps({"status":"ok","currenttime":time.time()})
     
     @cherrypy.expose
-    def updatePhone(self,lat=None,long=None):
-        if lat is None or long is None:
-            return json.dumps({"status":"GPS is NULL","currenttime":time.time(),"lat":lat,"long":long})
+    def updatePhone(self,la=None,lo=None):
+        if la is None or lo is None:
+            return json.dumps({"status":"GPS is NULL","currenttime":time.time()})
         else:
-            cherrypy.session['lat'] = lat
-            cherrypy.session['long'] = long
-            return json.dumps({"status":"ok","currenttime":time.time(),"lat":cherrypy.session['lat'],"long":long})
+            cherrypy.session['la'] = la
+            cherrypy.session['lo'] = lo
+            return json.dumps({"status":"ok","currenttime":time.time()})
 
     @cherrypy.expose
     def getBuffer(self):
@@ -24,7 +24,7 @@ class flashserver(object):
 
     @cherrypy.expose
     def test(self):
-        return cherrypy.session['lat']
+        return cherrypy.session['la']
 
 if __name__ == '__main__':
     conf = {
