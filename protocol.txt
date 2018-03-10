@@ -1,0 +1,51 @@
+Client to server:
+
+< POST ping
+>
+{
+	"status": "ok",
+	"time": currenttime
+}
+
+< POST updatePhone
+{
+	"la": _,
+	"lo": _,
+}
+>
+{
+	"status": "ok",
+	"time": currenttime
+}
+
+< POST getBuffer
+>
+{
+	"nextUpdateAt":	unixtimetosendrequest,
+	"buffer": [
+		[time, on/off],
+		...
+	],
+	"time": currenttime
+
+}
+
+
+
+COMMANDS
+{
+	"time": _,
+	"commands": {
+		"location": {
+			"la": [_, _],
+			"lo": [_, _],
+			"id": _
+		},
+		"command": on/off/strobe,
+		"probability": _,
+	}
+}
+
+
+Commands are translaed into time-mapped dicts, per GPS grid location
+
