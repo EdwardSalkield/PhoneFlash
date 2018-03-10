@@ -30,6 +30,10 @@ Client to server:
 
 }
 
+< POST start
+>
+{	"status": "ok"
+}
 
 
 COMMANDS
