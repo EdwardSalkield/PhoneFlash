@@ -33,18 +33,20 @@ Client to server:
 
 
 COMMANDS
-{
-	"time": _,
-	"commands": {
-		"location": {
-			"la": [_, _],
-			"lo": [_, _],
-			"id": _
-		},
-		"command": on/off/strobe,
-		"probability": _,
-	}
-}
+[
+		{
+			"time": _,
+			"commands": {
+				"parameters": {
+					"id": _,
+					"la": [_, _],
+					"lo": [_, _],
+				},
+				"command": on/off/strobe,
+				"probability": _
+			}
+		}
+]
 
 
 Commands are translaed into time-mapped dicts, per GPS grid location
