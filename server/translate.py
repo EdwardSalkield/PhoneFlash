@@ -11,10 +11,7 @@ def translate(starttime,iD,la,lo):
 
     for things in sequence:
         params = things["commands"]["parameters"]
-        print(correctLocation(params, la, lo))
-        print(ontime(things, starttime))
-        print(correctID(params, iD))
-        if correctLocation(params, la, lo) and ontime(things, starttime) and correctID(params, iD):
+        if correctLocation(params, la, lo) and ontime(things, starttime) and correctID(params, iD) and random.random()<things["comands"]["probability"]:
             buffer.append( ( things["time"]+starttime, things["commands"]["command"]) )
 
 
