@@ -13,7 +13,7 @@ def translate(starttime,iD,la,lo):
         params = things.commands.parameters
         if (random.random() < things.commands.probability):
             if correctLocation(params, la, lo) and afterStartTime(things, starttime) and correctID(params, iD):
-                buffer.append( ( things.getTime(), things.getToggle() ) )
+                buffer.append( ( things.time+starttime, things.commands.command ) )
 
 
     return buffer
