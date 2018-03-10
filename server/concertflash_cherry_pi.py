@@ -44,7 +44,7 @@ class flashserver(object):
            status = "GPS ERROR"
           
 
-       payload={"status":status,"currenttime":time.time(),"buffer":buffer,"nextUpdateAt"=time.time()+1}
+       payload={"status":status,"currenttime":time.time(),"buffer":buffer,"nextUpdateAt":time.time()+1}
        return json.dumps(payload)
 
     @cherrypy.expose
