@@ -13,8 +13,8 @@ class flashserver(object):
         if la is None or lo is None:
             return json.dumps({"status":"GPS is NULL","currenttime":time.time()})
         else:
-            cherrypy.session['la'] = la
-            cherrypy.session['lo'] = lo
+            cherrypy.session['la'] = float(la)
+            cherrypy.session['lo'] = float(lo)
             return json.dumps({"status":"ok","currenttime":time.time()})
 
     @cherrypy.expose
@@ -25,14 +25,26 @@ class flashserver(object):
        try:
            cherrypy.session['la']
            cherrypy.session['lo']
+           try:
+                self.starttime
+                try:
+                    buffer = translate.translate(self.starttime,cherrypy.session.id,cherrypy.session['la'],cherrypy.session['lo'])
+                    status = "ok"
+                except:
+                    buffer = [[]]
+                    status = "GPS ERROR"
+           except:
+                buffer = [[]]
+                status = "song not started"
+
        except:
            cherrypy.session['la']=None
            cherrypy.session['lo']=None
-       try:
-            buffer = translate.translate(self.starttime,cherrypy.session.id,cherrypy.session['la'],cherrypy.session['lo'])
-       except:
-           buffer=[[]]
-       payload={"status":"ok","currenttime":time.time(),"buffer":buffer}
+           buffer = [[]]
+           status = "GPS ERROR"
+          
+
+       payload={"status":status,"currenttime":time.time(),"buffer":buffer}
        return json.dumps(payload)
 
     @cherrypy.expose
@@ -47,14 +59,22 @@ class flashserver(object):
     @cherrypy.expose
     def test(self):
         return json.dumps(cherrypy.session['la'])
+
+    @cherrypy.expose
+    def stop(self):
+        del self.starttime
+        return json.dumps({"status":"ok"})
     
 
 if __name__ == '__main__':
-    conf = {
-        '/': {
-            'tools.sessions.on': True
-        }
-    }
-    cherrypy.quickstart(flashserver(), '/', conf)
+   cherrypy.config.update({'server.socket_host': '0.0.0.0',
+                           'server.socket_port': 8080,
+                           'tools.sessions.on' : True,
+                           'tools.sessions.timeout': 10
+                           })
+
+
+
+   cherrypy.quickstart(flashserver())
 
 
