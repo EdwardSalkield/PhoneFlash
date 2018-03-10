@@ -6,6 +6,7 @@ import logo from './heysweetcheeks.png';
 
 
 class App extends Component {
+
   constructor () {
     super()
     this.state = {
@@ -16,12 +17,27 @@ class App extends Component {
     this.getBuffer = this.getBuffer.bind(this)
     this.ping = this.ping.bind(this)
     this.toggleTorch = this.toggleTorch.bind(this)
+
   }
 
+
+
   updatePhone () {
-    axios.post('http://35.178.120.95/updatePhone', {
-      lat: 1,
-      longi: 1
+    var latit;
+    var longit;
+    navigator.geolocation.getCurrentPosition(function(location) {
+      latit = location.coords.latitude;
+      longit = location.coords.longitude;
+      console.log(location.coords.latitude);
+      console.log(location.coords.longitude);
+      //console.log(Math.round((new Date()).getTime() / 1000));
+      console.log(new Date().getTime()/1000);
+      console.log(Date.now());
+      //console.log(location.coords.accuracy);
+    });
+    axios.post('https://35.178.120.95/updatePhone', {
+      lat: latit,
+      longi: longit
     })
     .then(function (response) {
       console.log(response)
@@ -32,64 +48,81 @@ class App extends Component {
   }
 
   ping () {
-    axios.post('http://35.178.120.95/ping', {})
+    axios.post('https://35.178.120.95/ping', {})
     .then(response => console.log(response))
     .catch(error => console.log(error))
   }
 
   getBuffer () {
-    axios.post('http://35.178.120.95/getBuffer', {})
-    .then(response => console.log(response))
+    //updatePhone();
+    var beforeTime = new Date().getTime()/1000;
+    var afterTime;
+    var myPing;
+    axios.post('https://35.178.120.95/getBuffer', {})
+    .then(function (response) {
+      console.log(response);
+      console.log(response.data.nextUpdateAt.toFixed(3));
+      afterTime = new Date().getTime()/1000;
+      console.log(afterTime);
+      myPing = afterTime-beforeTime;
+      while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+10) {
+        console.log(new Date().getTime()/1000);
+      }
+      //getBuffer();
+      //this.getBuffer;
+      console.log(new Date().getTime()/1000);
+      console.log("YO");
+    })
     .catch(error => console.log(error))
   }
 
   toggleTorch () {
     //Test browser support
-    const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
-
-    if (SUPPORTS_MEDIA_DEVICES) {
-      //Get the environment camera (usually the second one)
-      navigator.mediaDevices.enumerateDevices().then(devices => {
-
-        const cameras = devices.filter((device) => device.kind === 'videoinput');
-
-        if (cameras.length === 0) {
-          throw 'No camera found on this device.';
-        }
-        const camera = cameras[cameras.length - 1];
-
-        // Create stream and get video track
-        navigator.mediaDevices.getUserMedia({
-          video: {
-            deviceId: camera.deviceId,
-            facingMode: ['user', 'environment'],
-            height: {ideal: 1080},
-            width: {ideal: 1920}
-          }
-        }).then(stream => {
-          const track = stream.getVideoTracks()[0];
-
-          //Create image capture object and get camera capabilities
-          const imageCapture = new ImageCapture(track)
-          const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
-
-            //todo: check if camera has a torch
-
-            //let there be light!
-            const btn = document.querySelector('.switch');
-            btn.addEventListener('click', function(){
-              track.applyConstraints({
-                advanced: [{torch: true}]
-              });
-            });
-          });
-        });
-      });
+    // const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
+    //
+    // if (SUPPORTS_MEDIA_DEVICES) {
+    //   //Get the environment camera (usually the second one)
+    //   navigator.mediaDevices.enumerateDevices().then(devices => {
+    //
+    //     const cameras = devices.filter((device) => device.kind === 'videoinput');
+    //
+    //     if (cameras.length === 0) {
+    //       throw 'No camera found on this device.';
+    //     }
+    //     const camera = cameras[cameras.length - 1];
+    //
+    //     // Create stream and get video track
+    //     navigator.mediaDevices.getUserMedia({
+    //       video: {
+    //         deviceId: camera.deviceId,
+    //         facingMode: ['user', 'environment'],
+    //         height: {ideal: 1080},
+    //         width: {ideal: 1920}
+    //       }
+    //     }).then(stream => {
+    //       const track = stream.getVideoTracks()[0];
+    //
+    //       //Create image capture object and get camera capabilities
+    //       const imageCapture = new ImageCapture(track)
+    //       const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+    //
+    //         //todo: check if camera has a torch
+    //
+    //         //let there be light!
+    //         const btn = document.querySelector('.switch');
+    //         btn.addEventListener('click', function(){
+    //           track.applyConstraints({
+    //             advanced: [{torch: true}]
+    //           });
+    //         });
+    //       });
+    //     });
+    //   });
 
       //The light will be on as long the track exists
 
 
-    }
+    //}
   }
 
   render () {
