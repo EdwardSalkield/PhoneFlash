@@ -11,6 +11,7 @@ class flashserver(object):
     commands = []
     starttime = 0
     controllerping = 0
+    self.locations=[[],[]]
     
     @cherrypy.expose
     def index(self):
@@ -29,8 +30,6 @@ class flashserver(object):
                 self.locations[1].append(float(lo))
             except:
                self.locations=[[],[]]
-               self.locations[0].append(float(la))
-               self.locations[1].append(float(lo))
             return json.dumps({"status":"ok","currenttime":time.time(),"locations":self.locations})
 
     @cherrypy.expose
