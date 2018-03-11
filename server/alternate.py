@@ -1,5 +1,5 @@
-def lrAlternate(midpoint, bar,commands , beatTime,barTime):
-
+def lrAlternate(midpoint, bar , beatTime,barTime):
+    commands=[]
     time = barTime*bar
     #RHS on off commands
     commands.append({   "time":time,
@@ -95,9 +95,9 @@ def lrAlternate(midpoint, bar,commands , beatTime,barTime):
     return commands
 
 
-def udAlternate(midpoint, bar,commands , beatTime,barTime):
+def udAlternate(midpoint, bar, beatTime,barTime):
     time = barTime*bar
-
+    commands=[]
     #back on off commands
     commands.append({   "time":time,
                         "commands":{
