@@ -62,7 +62,7 @@ class flashserver(object):
 
           
 
-       payload={"status":status,"currenttime":time.time(),"buffer":buffer,"nextUpdateAt":time.time()+1}
+       payload={"status":status,"currenttime":time.time(),"buffer":buffer,"nextUpdateAt":time.time()+180}
        return json.dumps(payload)
 
 
