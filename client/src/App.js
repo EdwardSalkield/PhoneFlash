@@ -184,7 +184,7 @@ class App extends Component {
                     i++;
                     theLoop();
                   }
-                  }, 50)
+                }, 5)
 
                 })();
 
@@ -199,11 +199,11 @@ class App extends Component {
                       i++;
                       theLoop();
                     }
-                  }, 50)
+                  }, 5)
 
                 })();
             }
-          }, 50);
+          }, 5);
         })();
 
       }
