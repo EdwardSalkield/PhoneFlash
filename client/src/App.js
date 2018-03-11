@@ -144,7 +144,70 @@ class App extends Component {
     function mainProgram () {
       buffer = [];
       updatePhone();
-      //while (buffer === []) {}
+      console.log("hfhakhfb");
+
+      (function bufLoop () {
+        myPing = getBuffer();
+        setTimeout(function () {
+          if (buffer.length == 0) {
+            console.log("Buffer still empty");
+            bufLoop();
+          } else {
+            doBufferThing();
+          }
+        }, 1000);
+      })();
+
+      function doBufferThing () {
+        console.log("hello ", buffer);
+        var i = 0;
+        (function theLoop () {
+          setTimeout(function () {
+            //if (i==0) {
+            //  onTorch();
+            //  i=1;
+              //console.log("oi");
+            //} else {
+            //  offTorch();
+            //  i=0;
+            //}
+            if (buffer[i][1] === "on") {
+
+                (function loop () {
+                  setTimeout(function () {
+                  if (new Date().getTime()/1000 < buffer[i][0]+myPing) {
+                    loop();
+                  } else {
+                    onTorch();
+                  }
+                  }, 50)
+
+                })();
+
+            } else if (buffer[i][1] === "off") {
+                (function loop2 () {
+                  setTimeout(function () {
+                    if (new Date().getTime()/1000 < buffer[i][0]+myPing){
+                      loop2()
+                    } else {
+                      offTorch();
+                    }
+                  }, 50)
+
+                })();
+            }
+            theLoop();
+          }, 50);
+        })();
+
+      }
+
+
+
+      // while (buffer === []) {
+      //   myPing = getBuffer();
+      //   console.log("fbdksfbakdfsb");
+      // }
       //myPing = getBuffer();
       //console.log("Buffer: ", buffer);
 
@@ -158,19 +221,6 @@ class App extends Component {
       //     offTorch();
       //   }
       // }
-      (function theLoop () {
-        var i = 0;
-        setTimeout(function () {
-          if (i==0) {
-            onTorch();
-            i=1;
-          } else {
-            offTorch();
-            i=0;
-          }
-          theLoop();
-        });
-      });
       //mainProgram();
   			// if ((new Date().getTime()/1000 - myPing) > buffer[i][0]) {
   			// 	if (buffer[i][1] == "on")  {
