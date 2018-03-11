@@ -1,5 +1,6 @@
-from fade import dark
-
+import alternate
+import onBeat
+import fade
 
 def barToCommands(patterns,locations,bpm):
     # Finding the middle of the room to establish the boundary everyone is divided by
@@ -10,7 +11,7 @@ def barToCommands(patterns,locations,bpm):
     midpoint=[0,0]
     midpoint[0]=sum(locations[0])/float(len(locations[0]))
     midpoint[1]=sum(locations[1])/float(len(locations[1]))
-    
+
 
     barTime = 240/bpm # Length of a bar
     beatTime = barTime/4 # Length of a beat
@@ -18,217 +19,23 @@ def barToCommands(patterns,locations,bpm):
    # Making the list of commands
     commands=[]
     for i, p in enumerate(patterns):
+        # Toggles the left and right half of the audience on and off
         if p == "lrAlternate":
-            commands = lrAlternate(midpoint, i, commands, beatTime,barTime)
+            commands = alternate.lrAlternate(midpoint, i, commands, beatTime, barTime)
+        # Same as lrAlternate, except top and bottom
         elif p == "udAlternate":
-            commands = udAlternate(midpoint, i, commands, beatTime,barTime)
+            commands = alternate.udAlternate(midpoint, i, commands, beatTime, barTime)
+        # All participating devices on for a quarter beat at the start of each beat
+        elif p == "flashOB":
+            commands = onBeat.flashOB(i, commands , beatTime, barTime)
+        # Toggles lights off and on on beat
+        elif p == "toggleOB":
+            commands = onBeat.toggleOB(i, commands , beatTime, barTime)
+        # Identical to toggleOB, except in double time
+        elif p == "toggleOB2":
+            commands = onBeat.toggleOB2(i, commands, beatTime, barTime)
+        # Test/hype building/space filling instruction. All dark for a bar
         elif p == "dark":
-            commands = dark(i, commands, beatTime,barTime)
+            commands = fade.dark(i, commands, beatTime, barTime)
     #print(commands)
     return commands
-
-
-def lrAlternate(midpoint, bar,commands , beatTime,barTime):
-    
-    time = barTime*bar
-    #RHS on off commands
-    commands.append({   "time":time,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[midpoint[1], 180] 
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[midpoint[1], 180]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+2*beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[midpoint[1], 180] 
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+3*barTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[midpoint[1], 180]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    #LHS on off commands
-    commands.append({   "time":time,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[-180, midpoint[1]]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[-180, midpoint[1]]
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+2*beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[-180,midpoint[1]]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+3*barTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,90],
-                                "lo":[-180, midpoint[1]]
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    
-    return commands
-
-
-def udAlternate(midpoint, bar,commands , beatTime,barTime):
-    time = barTime*bar
-
-    #back on off commands
-    commands.append({   "time":time,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,midpoint[0]],
-                                "lo":[-180, 180]
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,midpoint[0]],
-                                "lo":[-180, 180]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+2*beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,midpoint[0]],
-                                "lo":[-180, 180]
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+3*barTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[-90,midpoint[0]],
-                                "lo":[-180, 180]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    #front on off commands
-    commands.append({   "time":time,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[midpoint[0],90],
-                                "lo":[-180, 180]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[midpoint[0],90],
-                                "lo":[-180, 180]
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+2*beatTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[midpoint[0],90],
-                                "lo":[-180, 180]
-                            },
-                            "command":'off',
-                            "probability":1
-                        }
-                    })
-    commands.append({   "time":time+3*barTime,
-                        "commands":{
-                            "parameters":{
-                                "iD":None,
-                                "la":[midpoint[0],90],
-                                "lo":[-180, 180]
-                            },
-                            "command":'on',
-                            "probability":1
-                        }
-                    })
-    
-    return commands
-
-"""def flashOB():
-
-def toggleOB():
-
-def fadeIn():
-
-def fadeOut():
-
-def starsInEdsEyes():"""
-
-# Translates a list of patterns into a list of commands
