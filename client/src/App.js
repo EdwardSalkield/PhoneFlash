@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
-import logo from './heysweetcheeks.png';
+import logo from './flashinglight.png';
 
 class App extends Component {
 
@@ -10,33 +10,11 @@ class App extends Component {
     this.state = {
       username: ''
     }
-    this.updatePhone = this.updatePhone.bind(this)
+    //this.updatePhone = this.updatePhone.bind(this)
+    //this.mainProgram = this.mainProgram.bind(this)
   }
 
-  updatePhone () {
-    var latit;
-    var longit;
-    navigator.geolocation.getCurrentPosition(function(location) {
-      latit = location.coords.latitude;
-      longit = location.coords.longitude;
-      console.log(location.coords.latitude);
-      console.log(location.coords.longitude);
-      //console.log(Math.round((new Date()).getTime() / 1000));
-      console.log(new Date().getTime()/1000);
-      console.log(Date.now());
-      //console.log(location.coords.accuracy);
-    });
-    axios.post('https://35.178.120.95/updatePhone', {
-      lat: latit,
-      longi: longit
-    })
-    .then(function (response) {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error)
-    })
-  }
+
 
   render () {
     var buffer = [];
@@ -44,16 +22,18 @@ class App extends Component {
 
     function getBuffer () {
       var afterTime;
+      var servertime;
       var beforeTime = new Date().getTime()/1000;
       axios.post('https://35.178.120.95/getBuffer', {})
       .then(function (response) {
 		    // Update the buffer
 		    buffer = response.data.buffer;
+        servertime = response.data.curenttime;
         console.log(response);
       })
       .catch(error => console.log(error))
       afterTime = new Date().getTime()/1000;
-      myPing = (afterTime-beforeTime)/2 + 100; // REMOVE THIS 100 AT SOME POINT
+      myPing = afterTime - servertime + (afterTime-beforeTime)/2 + 100; // REMOVE THIS 100 AT SOME POINT
       return myPing;
     };
     function onTorch () {
@@ -142,14 +122,38 @@ class App extends Component {
       //The light will be on as long the track exists
       }
     }
-	  //function appendBuffer(b) {}
+    function updatePhone () {
+      var latit;
+      var longit;
+      navigator.geolocation.getCurrentPosition(function(location) {
+        latit = location.coords.latitude;
+        longit = location.coords.longitude;
+      });
+      axios.post('https://35.178.120.95/updatePhone', {
+        lat: latit,
+        longi: longit
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+    }
 
     function mainProgram () {
+      updatePhone();
       myPing = getBuffer();
 		  // Iterate over buffer, and output the song
-		  var i = 0; //Estimated index in the buffer
-      var done = false;
   		for (var i = 0; i < buffer.length; i++) {
+        if (buffer[i][1] === "on") {
+          while (new Date().getTime()/1000 < buffer[i][0]+myPing) {}
+          onTorch();
+        } else if (buffer[i][1] === "off") {
+          while (new Date().getTime()/1000 < buffer[i][0]+myPing) {}
+          offTorch();
+        }
+      }
   			// if ((new Date().getTime()/1000 - myPing) > buffer[i][0]) {
   			// 	if (buffer[i][1] == "on")  {
   			// 		onTorch();
@@ -157,7 +161,7 @@ class App extends Component {
   			// 		offTorch();
   			// 	}
   				//i+=1;
-  			}
+  			//}
       // (function theLoop () {
       //   setTimeout(function () {
       //
@@ -172,16 +176,12 @@ class App extends Component {
     mainProgram();
 
     return (
-      <div className="Big-Container">
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">PhoneFlash</h1>
         </header>
-      </div>
-        <div className='button__container'>
-          <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
-        </div>
+        <p>"HOLD UP YOUR FUCKING PHONE"</p>
       </div>
     )
   }
