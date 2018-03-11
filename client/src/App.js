@@ -175,10 +175,13 @@ class App extends Component {
 
                 (function loop () {
                   setTimeout(function () {
+                    console.log("main loop");
                   if (new Date().getTime()/1000 < buffer[i][0]+myPing) {
                     loop();
+                    console.log("Waiting for next on");
                   } else {
                     onTorch();
+                    theLoop();
                   }
                   }, 50)
 
@@ -188,15 +191,16 @@ class App extends Component {
                 (function loop2 () {
                   setTimeout(function () {
                     if (new Date().getTime()/1000 < buffer[i][0]+myPing){
-                      loop2()
+                      loop2();
+                      console.log("Waiting for next off");
                     } else {
                       offTorch();
+                      theLoop();
                     }
                   }, 50)
 
                 })();
             }
-            theLoop();
           }, 50);
         })();
 
