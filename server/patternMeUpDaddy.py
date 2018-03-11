@@ -231,5 +231,4 @@ def fadeOut():
 
 def starsInEdsEyes():"""
 
-barToCommands(["lrAlternate","udAlternate"],[[1,-1,1],[1,-1,-1]],120)
 # Translates a list of patterns into a list of commands
