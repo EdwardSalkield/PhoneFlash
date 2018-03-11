@@ -16,9 +16,12 @@ class App extends Component {
     this.updatePhone = this.updatePhone.bind(this)
     this.getBuffer = this.getBuffer.bind(this)
     this.ping = this.ping.bind(this)
-    this.toggleTorch = this.toggleTorch.bind(this)
+    this.onTorch = this.onTorch.bind(this)
+    this.offTorch = this.offTorch.bind(this)
 
   }
+
+
 
 
 
@@ -76,7 +79,7 @@ class App extends Component {
     .catch(error => console.log(error))
   }
 
-  toggleTorch () {
+  onTorch () {
     //Test browser support
     const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
     let ImageCapture = window.ImageCapture;
@@ -116,7 +119,50 @@ class App extends Component {
     }
   }
 
+  offTorch () {
+    //Test browser support
+    const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
+    let ImageCapture = window.ImageCapture;
+    if (SUPPORTS_MEDIA_DEVICES) {
+    //Get the environment camera (usually the second one)
+      navigator.mediaDevices.enumerateDevices().then(devices => {
+        const cameras = devices.filter((device) => device.kind === 'videoinput');
+        if (cameras.length === 0) {
+          throw 'No camera found on this device.';
+        }
+        const camera = cameras[cameras.length - 1];
+        // Create stream and get video track
+        navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: camera.deviceId,
+            facingMode: ['user', 'environment'],
+            height: {ideal: 1080},
+            width: {ideal: 1920}
+          }
+        }).then(stream => {
+          const track = stream.getVideoTracks()[0];
+          //Create image capture object and get camera capabilities
+          const imageCapture = new ImageCapture(track)
+          const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+            //todo: check if camera has a torch
+            //let there be light!
+            const btn = document.querySelector('.switch');
+            btn.addEventListener('click', function(){
+              track.applyConstraints({
+                advanced: [{torch: false}]
+              });
+            });
+          });
+        });
+      });
+    //The light will be on as long the track exists
+    }
+  }
+
   render () {
+    // while (true) {
+    //   console.log("OI");
+    // }
     return (
       <div className="Big-Container">
       <div className="App">
@@ -129,10 +175,12 @@ class App extends Component {
         <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
         <button className='button' onClick={this.getBuffer}>Buffer me up daddy</button>
         <button className='button' onClick={this.ping}>Ping me daddy</button>
-        <button className='switch' onClick={this.toggleTorch}>Flash me daddy</button>
+        <button className='switch' onClick={this.onTorch}>Flash me daddy</button>
+        <button className='switch' onClick={this.offTorch}>Unflash me daddy</button>
       </div>
       </div>
     )
+
   }
 }
 
