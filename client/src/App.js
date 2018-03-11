@@ -136,7 +136,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">PhoneFlash</h1>
         </header>
-        <p>"HOLD UP YOUR FUCKING PHONE"</p>
+        <p>"OI HOLD UP YOUR PHONE"</p>
         <button className='button' onClick={onTorch}>Torch on</button>
         <button className='button' onClick={offTorch}>Torch off</button>
       </div>
