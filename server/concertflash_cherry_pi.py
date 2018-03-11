@@ -4,6 +4,8 @@ import time
 import translate
 from patternMeUpDaddy import barToCommands
 
+
+
 class flashserver(object):
     @cherrypy.expose
     def index(self):
@@ -63,16 +65,6 @@ class flashserver(object):
        payload={"status":status,"currenttime":time.time(),"buffer":buffer,"nextUpdateAt":time.time()+1}
        return json.dumps(payload)
 
-    @cherrypy.expose
-    def start(self):
-        with open("bars.json") as bars:
-            sequence = json.loads(bars.read())
-        bars=sequence["bars"]
-        bpm = sequence["bpm"]
-        self.commands=barToCommands(bars,self.locations,bpm)
-        self.starttime=time.time()
-
-        return json.dumps({"status":"ok"})
 
     @cherrypy.expose
     def ping(self):
@@ -86,17 +78,35 @@ class flashserver(object):
     def stop(self):
         del self.starttime
         return json.dumps({"status":"ok"})
+
+    @cherrypy.expose
+    def beat(self, beat, ping=-1):
+        if float(ping) >0:  
+            self.starttime = self.starttime -float(ping)/2
+        return json.dumps({"currenttime":time.time()})
+
+    @cherrypy.expose
+    def start(self):
+        with open("bars.json") as bars:
+            sequence = json.loads(bars.read())
+        bars=sequence["bars"]
+        bpm = sequence["bpm"]
+        self.commands=barToCommands(bars,self.locations,bpm)
+        self.starttime=time.time()
+
+        return json.dumps({"currenttime":time.time()})
+
     
 
 if __name__ == '__main__':
-    cherrypy.config.update({
+    conf = {
+        '/': {
               'server.socket_host': '0.0.0.0',
               'server.socket_port': 8080,
               'server.ssl_certificate':'/etc/nginx/ssl/nginx.crt',
               'server.ssl_private_key':'/etc/nginx/ssl/nginx.key',
               'tools.sessions.on': True,
               'tools.sessions.timeout': 10
-    })
-    cherrypy.quickstart(flashserver())
-
-
+        }
+    }
+    cherrypy.quickstart(flashserver(), '/', conf)
