@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
 import logo from './heysweetcheeks.png';
-//import ImageCapture from './ImageCapture'
-
 
 class App extends Component {
 
@@ -20,10 +18,6 @@ class App extends Component {
     this.offTorch = this.offTorch.bind(this)
 
   }
-
-
-
-
 
   updatePhone () {
     var latit;
@@ -168,6 +162,35 @@ class App extends Component {
   }
 
   render () {
+
+  function getPing() {
+		
+	}
+
+  function mainProgram () {
+  	var timeToWait = 1000;
+    var ping = 0;
+
+    (function theLoop () {
+      setTimeout(function () {
+
+        // Start looped code
+        //
+        // Call getBuffer
+        // update timeToWait
+        // store the buffer
+				this.getBuffer
+        console.log("Hey");
+				timeToWait = 1000;
+
+				// End looped code
+        theLoop();
+      }, timeToWait);
+    })();
+
+  }
+    mainProgram();
+
     // while (true) {
     //   console.log("OI");
     // }
