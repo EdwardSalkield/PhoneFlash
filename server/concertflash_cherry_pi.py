@@ -2,11 +2,16 @@ import cherrypy
 import json
 import time
 import translate
+import copy
 from patternMeUpDaddy import barToCommands
 
 
-
 class flashserver(object):
+    # Initialise Server
+    commands = []
+    starttime = 0
+    controllerping = 0
+    
     @cherrypy.expose
     def index(self):
         return json.dumps({"status":"ok","currenttime":time.time()})
@@ -54,7 +59,11 @@ class flashserver(object):
            status = "GPS ERROR"
        #checking messy code soject 
        #try:
+       print("Commands:")
+       print(self.commands)
        buffer = translate.translate(self.commands ,self.starttime,cherrypy.session.id,cherrypy.session['la'],cherrypy.session['lo'])
+       print("CommandsAfter:")
+       print(self.commands)
        status = "ok"
        #except:
        #    buffer = [[]]
@@ -80,9 +89,10 @@ class flashserver(object):
         return json.dumps({"status":"ok"})
 
     @cherrypy.expose
-    def beat(self, beat, ping=-1):
-        if float(ping) >0:  
-            self.starttime = self.starttime -float(ping)/2
+    def beat(self, beat, ping):
+        #self.controllerping = ping
+        
+        #self.starttime = self.starttime -float(ping)/2
         return json.dumps({"currenttime":time.time()})
 
     @cherrypy.expose
@@ -91,8 +101,9 @@ class flashserver(object):
             sequence = json.loads(bars.read())
         bars=sequence["bars"]
         bpm = sequence["bpm"]
-        self.commands=barToCommands(bars,self.locations,bpm)
+        self.commands=copy.deepcopy(barToCommands(bars,self.locations,bpm))
         self.starttime=time.time()
+        print(self.commands)
 
         return json.dumps({"currenttime":time.time()})
 
