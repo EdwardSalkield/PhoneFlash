@@ -17,7 +17,7 @@ class App extends Component {
 
 
   render () {
-    var buffer = [];
+    var buffer;
     var myPing;
 
     function getBuffer () {
@@ -142,8 +142,11 @@ class App extends Component {
     }
 
     function mainProgram () {
+      buffer = [];
       updatePhone();
-      myPing = getBuffer();
+      while (buffer === []) {
+        myPing = getBuffer();
+      }
 		  // Iterate over buffer, and output the song
   		for (var i = 0; i < buffer.length; i++) {
         if (buffer[i][1] === "on") {
@@ -154,6 +157,7 @@ class App extends Component {
           offTorch();
         }
       }
+      mainProgram();
   			// if ((new Date().getTime()/1000 - myPing) > buffer[i][0]) {
   			// 	if (buffer[i][1] == "on")  {
   			// 		onTorch();
