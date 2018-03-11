@@ -13,9 +13,10 @@ class App extends Component {
   }
 
   render () {
-    var onOrrOff;
+
 
     function getBuffer () {
+      var onOrrOff;
       axios.post('https://35.178.120.95/getBuffer', {})
       .then(function (response) {
 		    onOrOff = response.data.buffer;
