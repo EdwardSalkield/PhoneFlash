@@ -99,14 +99,12 @@ class flashserver(object):
     
 
 if __name__ == '__main__':
-    conf = {
-        '/': {
+    cherrypy.config.update({
               'server.socket_host': '0.0.0.0',
               'server.socket_port': 8080,
               'server.ssl_certificate':'/etc/nginx/ssl/nginx.crt',
               'server.ssl_private_key':'/etc/nginx/ssl/nginx.key',
               'tools.sessions.on': True,
               'tools.sessions.timeout': 10
-        }
-    }
-    cherrypy.quickstart(flashserver(), '/', conf)
+    })
+    cherrypy.quickstart(flashserver())
