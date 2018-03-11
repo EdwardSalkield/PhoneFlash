@@ -10,13 +10,10 @@ class App extends Component {
     this.state = {
       username: ''
     }
-
     this.updatePhone = this.updatePhone.bind(this)
     this.getBuffer = this.getBuffer.bind(this)
-    this.ping = this.ping.bind(this)
     this.onTorch = this.onTorch.bind(this)
     this.offTorch = this.offTorch.bind(this)
-
   }
 
   updatePhone () {
@@ -44,31 +41,17 @@ class App extends Component {
     })
   }
 
-  ping () {
-    axios.post('https://35.178.120.95/ping', {})
-    .then(response => console.log(response))
-    .catch(error => console.log(error))
-  }
-
   getBuffer () {
-    //updatePhone();
     var beforeTime = new Date().getTime()/1000;
     var afterTime;
     var myPing;
     axios.post('https://35.178.120.95/getBuffer', {})
     .then(function (response) {
       console.log(response);
-      console.log(response.data.nextUpdateAt.toFixed(3));
       afterTime = new Date().getTime()/1000;
-      console.log(afterTime);
-      myPing = afterTime-beforeTime;
-      while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+10) {
-        console.log(new Date().getTime()/1000);
-      }
-      //getBuffer();
-      //this.getBuffer;
-      console.log(new Date().getTime()/1000);
-      console.log("YO");
+      myPing = (afterTime-beforeTime)/2;
+      while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+myPing+10) {}
+      console.log("NEXT GETBUFFER");
     })
     .catch(error => console.log(error))
   }
@@ -163,37 +146,41 @@ class App extends Component {
 
   render () {
 
-  function getPing() {
-		
-	}
+    function mainProgram () {
+    	var timeToWait = 1000;
+      var ping = function () {
+        var beforeTime = new Date().getTime/1000;
+        var afterTime;
+        var myPing;
+        axios.post('https://35.178.120.95/ping', {})
+        .then(function (response) {
+          console.log(response);
+          afterTime = new Date().getTime()/1000;
+          return (afterTime-beforeTime)/2;
+        })
+        .catch(error => console.log(error))
+      };
 
-  function mainProgram () {
-  	var timeToWait = 1000;
-    var ping = 0;
+      (function theLoop () {
+        setTimeout(function () {
 
-    (function theLoop () {
-      setTimeout(function () {
+          // Start looped code
+          //
+          // Call getBuffer
+          // update timeToWait
+          // store the buffer
+  				this.getBuffer
+          console.log("Hey");
+  				timeToWait = 1000;
 
-        // Start looped code
-        //
-        // Call getBuffer
-        // update timeToWait
-        // store the buffer
-				this.getBuffer
-        console.log("Hey");
-				timeToWait = 1000;
+  				// End looped code
+          theLoop();
+        }, timeToWait);
+      })();
 
-				// End looped code
-        theLoop();
-      }, timeToWait);
-    })();
-
-  }
+    }
     mainProgram();
 
-    // while (true) {
-    //   console.log("OI");
-    // }
     return (
       <div className="Big-Container">
       <div className="App">
@@ -202,16 +189,14 @@ class App extends Component {
           <h1 className="App-title">PhoneFlash</h1>
         </header>
       </div>
-      <div className='button__container'>
-        <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
-        <button className='button' onClick={this.getBuffer}>Buffer me up daddy</button>
-        <button className='button' onClick={this.ping}>Ping me daddy</button>
-        <button className='switch' onClick={this.onTorch}>Flash me daddy</button>
-        <button className='switch' onClick={this.offTorch}>Unflash me daddy</button>
-      </div>
+        <div className='button__container'>
+          <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
+          <button className='button' onClick={this.getBuffer}>Buffer me up daddy</button>
+          <button className='switch' onClick={this.onTorch}>Flash me daddy</button>
+          <button className='switch' onClick={this.offTorch}>Unflash me daddy</button>
+        </div>
       </div>
     )
-
   }
 }
 
