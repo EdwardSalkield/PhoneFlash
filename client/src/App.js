@@ -147,40 +147,20 @@ class App extends Component {
         // console.log("After Time: ", afterTime);
         // console.log("Ping: ", myPing);
         while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+300){}
-        //console.log("NEXT GETBUFFER");
       })
       .catch(error => console.log(error))
     }
 
     function mainProgram () {
-    	//var timeToWait = 1000;
-      //var ping = getPing();
-      //console.log(ping);
-
       (function theLoop () {
         setTimeout(function () {
           getBuffer();
           onTorch();
           offTorch();
-          //console.log(ping);
-
-          // Start looped code
-          //
-          // Call getBuffer
-          // update timeToWait
-          // store the buffer
-  				//this.getBuffer;
-          //console.log("Hey");
-  				//timeToWait =
-
-  				// End looped code
           theLoop();
-        //}, timeToWait);
-      });
+        });
       })();
-
     }
-    //this.forceUpdate();
 
     mainProgram();
 
@@ -194,8 +174,6 @@ class App extends Component {
       </div>
         <div className='button__container'>
           <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
-
-
         </div>
       </div>
     )
