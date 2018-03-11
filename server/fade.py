@@ -1,7 +1,8 @@
 #def fadeIn():
 #def fadeOut():
 
-def dark(bar, commands , beatTime, barTime):
+def dark(bar, beatTime, barTime):
+    commands = []
 
     time = barTime*bar
     #RHS on off commands

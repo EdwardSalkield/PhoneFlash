@@ -1,5 +1,6 @@
 
-def flashOB(bar, commands , beatTime, barTime):
+def flashOB(bar, beatTime, barTime):
+    commands = []
 
     time = barTime*bar
     #RHS on off commands
@@ -99,8 +100,8 @@ def flashOB(bar, commands , beatTime, barTime):
 
 
 
-def toggleOB(bar, commands , beatTime, barTime):
-
+def toggleOB(bar, beatTime, barTime):
+    commands = []
     time = barTime*bar
     #RHS on off commands
     commands.append({   "time":time,
@@ -151,8 +152,8 @@ def toggleOB(bar, commands , beatTime, barTime):
     return commands
 
 
-def toggleOB2(bar, commands , beatTime, barTime):
-
+def toggleOB2(bar, beatTime, barTime):
+    commands = []
     time = barTime*bar
     #RHS on off commands
     commands.append({   "time":time,

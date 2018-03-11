@@ -21,21 +21,21 @@ def barToCommands(patterns,locations,bpm):
     for i, p in enumerate(patterns):
         # Toggles the left and right half of the audience on and off
         if p == "lrAlternate":
-            commands = alternate.lrAlternate(midpoint, i, commands, beatTime, barTime)
+            commands += alternate.lrAlternate(midpoint, i,  beatTime, barTime)
         # Same as lrAlternate, except top and bottom
         elif p == "udAlternate":
-            commands = alternate.udAlternate(midpoint, i, commands, beatTime, barTime)
+            commands += alternate.udAlternate(midpoint, i,  beatTime, barTime)
         # All participating devices on for a quarter beat at the start of each beat
         elif p == "flashOB":
-            commands = onBeat.flashOB(i, commands , beatTime, barTime)
+            commands += onBeat.flashOB(i, beatTime, barTime)
         # Toggles lights off and on on beat
         elif p == "toggleOB":
-            commands = onBeat.toggleOB(i, commands , beatTime, barTime)
+            commands += onBeat.toggleOB(i, beatTime, barTime)
         # Identical to toggleOB, except in double time
         elif p == "toggleOB2":
-            commands = onBeat.toggleOB2(i, commands, beatTime, barTime)
+            commands += onBeat.toggleOB2(i,  beatTime, barTime)
         # Test/hype building/space filling instruction. All dark for a bar
-        elif p == "dark":
-            commands = fade.dark(i, commands, beatTime, barTime)
+        if p == "dark":
+            commands += fade.dark(i, beatTime, barTime)
     #print(commands)
     return commands
