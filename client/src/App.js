@@ -171,7 +171,7 @@ class App extends Component {
             //  offTorch();
             //  i=0;
             //}
-            if (buffer[i][1] === "on") {
+            if (i < buffer.length && buffer[i][1] === "on") {
 
                 (function loop () {
                   setTimeout(function () {
@@ -181,13 +181,14 @@ class App extends Component {
                     console.log("Waiting for next on");
                   } else {
                     onTorch();
+                    i++;
                     theLoop();
                   }
                   }, 50)
 
                 })();
 
-            } else if (buffer[i][1] === "off") {
+            } else if (i < buffer.length && buffer[i][1] === "off") {
                 (function loop2 () {
                   setTimeout(function () {
                     if (new Date().getTime()/1000 < buffer[i][0]+myPing){
@@ -195,6 +196,7 @@ class App extends Component {
                       console.log("Waiting for next off");
                     } else {
                       offTorch();
+                      i++;
                       theLoop();
                     }
                   }, 50)
