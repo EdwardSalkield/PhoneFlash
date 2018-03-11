@@ -134,12 +134,22 @@ class App extends Component {
       }
     }
 
+	var buffer = [];
+    var myPing;
+
+	function appendBuffer(b) {
+		
+	}
+
     function getBuffer () {
-      var beforeTime = new Date().getTime()/1000;
       var afterTime;
-      var myPing;
+      var beforeTime = new Date().getTime()/1000;
       axios.post('https://35.178.120.95/getBuffer', {})
       .then(function (response) {
+		// Update the buffer
+		buffer = response.data.buffer;
+		
+
         console.log(response);
         afterTime = new Date().getTime()/1000;
         myPing = (afterTime-beforeTime)/2 + 100;
@@ -152,8 +162,27 @@ class App extends Component {
     }
 
     function mainProgram () {
+		getBuffer();
+		// Iterate over buffer, and output the song
+
+		var i = 0; //Estimated index in the buffer
+		while (true) {
+			if (new Date().getTime()/1000 - myPing) > buffer[i][0]) {
+				/*if (buffer[i][1] == "on")  {
+					onTorch();
+				} else if (buffer[i][1] == "off") {
+					offTorch();
+				}
+				i+=1;*/
+			}
+			
+			
+		}
+	
+
       (function theLoop () {
         setTimeout(function () {
+		  
           getBuffer();
           onTorch();
           offTorch();
