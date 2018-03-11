@@ -106,12 +106,16 @@ class App extends Component {
           const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
             //todo: check if camera has a torch
             //let there be light!
-            const btn = document.querySelector('.switch');
-            btn.addEventListener('click', function(){
-              track.applyConstraints({
-                advanced: [{torch: true}]
-              });
-            });
+            track.applyConstraints({
+              advanced: [{torch: true}]
+              
+            })
+            // const btn = document.querySelector('.switch');
+            // btn.addEventListener('click', function(){
+            //   track.applyConstraints({
+            //     advanced: [{torch: true}]
+            //   });
+            // });
           });
         });
       });
