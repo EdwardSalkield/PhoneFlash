@@ -184,7 +184,7 @@ class App extends Component {
                     i++;
                     theLoop();
                   }
-                }, 5)
+                }, buffer[i][0]+myPing-(new Date().getTime()/1000))
 
                 })();
 
@@ -199,7 +199,7 @@ class App extends Component {
                       i++;
                       theLoop();
                     }
-                  }, 5)
+                  }, buffer[i][0]+myPing-(new Date().getTime()/1000))
 
                 })();
             }
