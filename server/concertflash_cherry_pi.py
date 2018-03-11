@@ -50,7 +50,7 @@ class flashserver(object):
        try:
             self.starttime
        except:
-           buffer = [[]]
+           buf= [[]]
            status = "song not started"
 
        #checking valid gps
@@ -58,25 +58,22 @@ class flashserver(object):
            cherrypy.session['la']
            cherrypy.session['lo']
        except:
-           cherrypy.session['la']=None
-           cherrypy.session['lo']=None
-           buffer = [[]]
+           cherrypy.session['la']=1
+           cherrypy.session['lo']=1
+           buf= [[]]
            status = "GPS ERROR"
        #checking messy code soject 
        #try:
-       print("Commands:")
-       print(self.commands)
-       buffer = translate.translate(self.commands ,self.starttime,cherrypy.session.id,cherrypy.session['la'],cherrypy.session['lo'])
-       print("CommandsAfter:")
-       print(self.commands)
+       buf= translate.translate(self.commands ,self.starttime,cherrypy.session.id,cherrypy.session['la'],cherrypy.session['lo'])
        status = "ok"
+
        #except:
        #    buffer = [[]]
        #    status = "translation error"
 
           
 
-       payload={"status":status,"currenttime":time.time(),"buffer":buffer,"nextUpdateAt":time.time()+180}
+       payload={"status":status,"currenttime":time.time(),"buffer":buf,"nextUpdateAt":time.time()+180}
        return json.dumps(payload)
 
 

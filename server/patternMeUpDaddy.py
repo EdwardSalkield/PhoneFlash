@@ -37,5 +37,7 @@ def barToCommands(patterns,locations,bpm):
         # Test/hype building/space filling instruction. All dark for a bar
         elif p == "dark":
             commands += fade.dark(i, beatTime, barTime)
+        elif p == "light":
+            commands += fade.light(i, beatTime, barTime)
     #print(commands)
     return commands
