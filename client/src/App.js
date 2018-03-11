@@ -146,7 +146,7 @@ class App extends Component {
         // console.log("Before Time: ", beforeTime);
         // console.log("After Time: ", afterTime);
         // console.log("Ping: ", myPing);
-        while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+100){}
+        while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+300){}
         //console.log("NEXT GETBUFFER");
       })
       .catch(error => console.log(error))
