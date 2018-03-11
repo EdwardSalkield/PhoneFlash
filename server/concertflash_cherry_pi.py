@@ -90,7 +90,7 @@ class flashserver(object):
 
     @cherrypy.expose
     def stop(self):
-        del self.starttime
+        starttime = 0
         return json.dumps({"status":"ok"})
 
     @cherrypy.expose
