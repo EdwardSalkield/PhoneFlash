@@ -145,19 +145,32 @@ class App extends Component {
       buffer = [];
       updatePhone();
       //while (buffer === []) {}
-      myPing = getBuffer();
-      console.log("Buffer: ", buffer);
+      //myPing = getBuffer();
+      //console.log("Buffer: ", buffer);
 
 		  // Iterate over buffer, and output the song
-  		for (var i = 0; i < buffer.length; i++) {
-        if (buffer[i][1] === "on") {
-          while (new Date().getTime()/1000 < buffer[i][0]+myPing) {}
-          onTorch();
-        } else if (buffer[i][1] === "off") {
-          while (new Date().getTime()/1000 < buffer[i][0]+myPing) {}
-          offTorch();
-        }
-      }
+  		// for (var i = 0; i < buffer.length; i++) {
+      //   if (buffer[i][1] === "on") {
+      //     while (new Date().getTime()/1000 < buffer[i][0]+myPing) {}
+      //     onTorch();
+      //   } else if (buffer[i][1] === "off") {
+      //     while (new Date().getTime()/1000 < buffer[i][0]+myPing) {}
+      //     offTorch();
+      //   }
+      // }
+      (function theLoop () {
+        var i = 0;
+        setTimeout(function () {
+          if (i==0) {
+            onTorch();
+            i=1;
+          } else {
+            offTorch();
+            i=0;
+          }
+          theLoop();
+        });
+      });
       //mainProgram();
   			// if ((new Date().getTime()/1000 - myPing) > buffer[i][0]) {
   			// 	if (buffer[i][1] == "on")  {
@@ -176,6 +189,7 @@ class App extends Component {
       //     theLoop();
       //   });
       // })();
+
     }
 
     mainProgram();
