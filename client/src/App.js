@@ -33,7 +33,7 @@ class App extends Component {
       })
       .catch(error => console.log(error))
       afterTime = new Date().getTime()/1000;
-      myPing = afterTime - servertime + (afterTime-beforeTime)/2 + 100; // REMOVE THIS 100 AT SOME POINT
+      myPing = afterTime - (servertime + (afterTime-beforeTime)/2); // REMOVE THIS 100 AT SOME POINT
       return myPing;
     };
     function onTorch () {
@@ -163,16 +163,7 @@ class App extends Component {
         var i = 0;
         (function theLoop () {
           setTimeout(function () {
-            //if (i==0) {
-            //  onTorch();
-            //  i=1;
-              //console.log("oi");
-            //} else {
-            //  offTorch();
-            //  i=0;
-            //}
             if (i < buffer.length && buffer[i][1] === "on") {
-
                 (function loop () {
                   setTimeout(function () {
                     console.log("main loop");
