@@ -108,7 +108,7 @@ class App extends Component {
             //let there be light!
             track.applyConstraints({
               advanced: [{torch: true}]
-              
+
             })
             // const btn = document.querySelector('.switch');
             // btn.addEventListener('click', function(){
@@ -150,12 +150,16 @@ class App extends Component {
           const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
             //todo: check if camera has a torch
             //let there be light!
-            const btn = document.querySelector('.switch');
-            btn.addEventListener('click', function(){
-              track.applyConstraints({
-                advanced: [{torch: false}]
-              });
-            });
+            track.applyConstraints({
+              advanced: [{torch: false}]
+
+            })
+            // const btn = document.querySelector('.switch');
+            // btn.addEventListener('click', function(){
+            //   track.applyConstraints({
+            //     advanced: [{torch: false}]
+            //   });
+            // });
           });
         });
       });
