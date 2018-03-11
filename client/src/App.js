@@ -144,9 +144,10 @@ class App extends Component {
     function mainProgram () {
       buffer = [];
       updatePhone();
-      while (buffer === []) {
-        myPing = getBuffer();
-      }
+      //while (buffer === []) {}
+      myPing = getBuffer();
+      console.log("Buffer: ", buffer);
+
 		  // Iterate over buffer, and output the song
   		for (var i = 0; i < buffer.length; i++) {
         if (buffer[i][1] === "on") {
@@ -157,7 +158,7 @@ class App extends Component {
           offTorch();
         }
       }
-      mainProgram();
+      //mainProgram();
   			// if ((new Date().getTime()/1000 - myPing) > buffer[i][0]) {
   			// 	if (buffer[i][1] == "on")  {
   			// 		onTorch();
@@ -186,6 +187,8 @@ class App extends Component {
           <h1 className="App-title">PhoneFlash</h1>
         </header>
         <p>"HOLD UP YOUR FUCKING PHONE"</p>
+        <button className='button' onClick={onTorch}>Torch on</button>
+        <button className='button' onClick={offTorch}>Torch off</button>
       </div>
     )
   }
