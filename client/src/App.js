@@ -11,7 +11,7 @@ class App extends Component {
       username: ''
     }
     this.updatePhone = this.updatePhone.bind(this)
-    this.getBuffer = this.getBuffer.bind(this)
+    //this.getBuffer = this.getBuffer.bind(this)
     this.onTorch = this.onTorch.bind(this)
     this.offTorch = this.offTorch.bind(this)
   }
@@ -39,21 +39,6 @@ class App extends Component {
     .catch(function (error) {
       console.log(error)
     })
-  }
-
-  getBuffer () {
-    var beforeTime = new Date().getTime()/1000;
-    var afterTime;
-    var myPing;
-    axios.post('https://35.178.120.95/getBuffer', {})
-    .then(function (response) {
-      console.log(response);
-      afterTime = new Date().getTime()/1000;
-      myPing = (afterTime-beforeTime)/2;
-      while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+myPing+10) {}
-      console.log("NEXT GETBUFFER");
-    })
-    .catch(error => console.log(error))
   }
 
   onTorch () {
@@ -146,39 +131,52 @@ class App extends Component {
 
   render () {
 
+    function getBuffer () {
+      var beforeTime = new Date().getTime()/1000;
+      var afterTime;
+      var myPing;
+      axios.post('https://35.178.120.95/getBuffer', {})
+      .then(function (response) {
+        console.log(response);
+        afterTime = new Date().getTime()/1000;
+        myPing = (afterTime-beforeTime)/2 + 100;
+        console.log("Before Time: ", beforeTime);
+        console.log("After Time: ", afterTime);
+        console.log("Ping: ", myPing);
+        while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+100){}
+        console.log("NEXT GETBUFFER");
+      })
+      .catch(error => console.log(error))
+    }
+
     function mainProgram () {
-    	var timeToWait = 1000;
-      var ping = function () {
-        var beforeTime = new Date().getTime/1000;
-        var afterTime;
-        var myPing;
-        axios.post('https://35.178.120.95/ping', {})
-        .then(function (response) {
-          console.log(response);
-          afterTime = new Date().getTime()/1000;
-          return (afterTime-beforeTime)/2;
-        })
-        .catch(error => console.log(error))
-      };
+    	//var timeToWait = 1000;
+      //var ping = getPing();
+      //console.log(ping);
 
       (function theLoop () {
         setTimeout(function () {
+          getBuffer();
+          //console.log(ping);
 
           // Start looped code
           //
           // Call getBuffer
           // update timeToWait
           // store the buffer
-  				this.getBuffer
-          console.log("Hey");
-  				timeToWait = 1000;
+  				//this.getBuffer;
+          //console.log("Hey");
+  				//timeToWait =
 
   				// End looped code
           theLoop();
-        }, timeToWait);
+        //}, timeToWait);
+      });
       })();
 
     }
+    //this.forceUpdate();
+
     mainProgram();
 
     return (
@@ -191,7 +189,7 @@ class App extends Component {
       </div>
         <div className='button__container'>
           <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
-          <button className='button' onClick={this.getBuffer}>Buffer me up daddy</button>
+
           <button className='switch' onClick={this.onTorch}>Flash me daddy</button>
           <button className='switch' onClick={this.offTorch}>Unflash me daddy</button>
         </div>
