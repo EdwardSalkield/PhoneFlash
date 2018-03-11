@@ -11,15 +11,19 @@ class flashserver(object):
     commands = []
     starttime = 0
     controllerping = 0
-    self.locations=[[],[]]
+    locations=[[],[]]
     
     @cherrypy.expose
     def index(self):
         return json.dumps({"status":"ok","currenttime":time.time()})
     
     @cherrypy.expose
-    def updatePhone(self,la=None,lo=None):
+    def updatePhone(self, la=1, lo=1):
+        print("La and Lo")
+        print(la)
+        print(lo)
         if la is None or lo is None:
+            print("NULL GPS")
             return json.dumps({"status":"GPS is NULL","currenttime":time.time()})
         else:
             cherrypy.session['la'] = float(la)
@@ -30,6 +34,8 @@ class flashserver(object):
                 self.locations[1].append(float(lo))
             except:
                self.locations=[[],[]]
+            print("Locations")
+            print(self.locations)
             return json.dumps({"status":"ok","currenttime":time.time(),"locations":self.locations})
 
     @cherrypy.expose

@@ -130,8 +130,8 @@ class App extends Component {
         longit = location.coords.longitude;
       });
       axios.post('https://35.178.120.95/updatePhone', {
-        lat: latit,
-        longi: longit
+        la: latit,
+        lo: longit
       })
       .then(function (response) {
         console.log(response)
