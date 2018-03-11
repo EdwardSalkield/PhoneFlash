@@ -12,8 +12,8 @@ class App extends Component {
     }
     this.updatePhone = this.updatePhone.bind(this)
     //this.getBuffer = this.getBuffer.bind(this)
-    this.onTorch = this.onTorch.bind(this)
-    this.offTorch = this.offTorch.bind(this)
+    //this.onTorch = this.onTorch.bind(this)
+    //this.offTorch = this.offTorch.bind(this)
   }
 
   updatePhone () {
@@ -41,95 +41,98 @@ class App extends Component {
     })
   }
 
-  onTorch () {
-    //Test browser support
-    const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
-    let ImageCapture = window.ImageCapture;
-    if (SUPPORTS_MEDIA_DEVICES) {
-    //Get the environment camera (usually the second one)
-      navigator.mediaDevices.enumerateDevices().then(devices => {
-        const cameras = devices.filter((device) => device.kind === 'videoinput');
-        if (cameras.length === 0) {
-          throw 'No camera found on this device.';
-        }
-        const camera = cameras[cameras.length - 1];
-        // Create stream and get video track
-        navigator.mediaDevices.getUserMedia({
-          video: {
-            deviceId: camera.deviceId,
-            facingMode: ['user', 'environment'],
-            height: {ideal: 1080},
-            width: {ideal: 1920}
-          }
-        }).then(stream => {
-          const track = stream.getVideoTracks()[0];
-          //Create image capture object and get camera capabilities
-          const imageCapture = new ImageCapture(track)
-          const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
-            //todo: check if camera has a torch
-            //let there be light!
-            track.applyConstraints({
-              advanced: [{torch: true}]
 
-            })
-            // const btn = document.querySelector('.switch');
-            // btn.addEventListener('click', function(){
-            //   track.applyConstraints({
-            //     advanced: [{torch: true}]
-            //   });
-            // });
-          });
-        });
-      });
-    //The light will be on as long the track exists
-    }
-  }
 
-  offTorch () {
-    //Test browser support
-    const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
-    let ImageCapture = window.ImageCapture;
-    if (SUPPORTS_MEDIA_DEVICES) {
-    //Get the environment camera (usually the second one)
-      navigator.mediaDevices.enumerateDevices().then(devices => {
-        const cameras = devices.filter((device) => device.kind === 'videoinput');
-        if (cameras.length === 0) {
-          throw 'No camera found on this device.';
-        }
-        const camera = cameras[cameras.length - 1];
-        // Create stream and get video track
-        navigator.mediaDevices.getUserMedia({
-          video: {
-            deviceId: camera.deviceId,
-            facingMode: ['user', 'environment'],
-            height: {ideal: 1080},
-            width: {ideal: 1920}
-          }
-        }).then(stream => {
-          const track = stream.getVideoTracks()[0];
-          //Create image capture object and get camera capabilities
-          const imageCapture = new ImageCapture(track)
-          const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
-            //todo: check if camera has a torch
-            //let there be light!
-            track.applyConstraints({
-              advanced: [{torch: false}]
 
-            })
-            // const btn = document.querySelector('.switch');
-            // btn.addEventListener('click', function(){
-            //   track.applyConstraints({
-            //     advanced: [{torch: false}]
-            //   });
-            // });
-          });
-        });
-      });
-    //The light will be on as long the track exists
-    }
-  }
 
   render () {
+    function onTorch () {
+      //Test browser support
+      const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
+      let ImageCapture = window.ImageCapture;
+      if (SUPPORTS_MEDIA_DEVICES) {
+      //Get the environment camera (usually the second one)
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+          const cameras = devices.filter((device) => device.kind === 'videoinput');
+          if (cameras.length === 0) {
+            throw 'No camera found on this device.';
+          }
+          const camera = cameras[cameras.length - 1];
+          // Create stream and get video track
+          navigator.mediaDevices.getUserMedia({
+            video: {
+              deviceId: camera.deviceId,
+              facingMode: ['user', 'environment'],
+              height: {ideal: 1080},
+              width: {ideal: 1920}
+            }
+          }).then(stream => {
+            const track = stream.getVideoTracks()[0];
+            //Create image capture object and get camera capabilities
+            const imageCapture = new ImageCapture(track)
+            const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+              //todo: check if camera has a torch
+              //let there be light!
+              track.applyConstraints({
+                advanced: [{torch: true}]
+
+              })
+              // const btn = document.querySelector('.switch');
+              // btn.addEventListener('click', function(){
+              //   track.applyConstraints({
+              //     advanced: [{torch: true}]
+              //   });
+              // });
+            });
+          });
+        });
+      //The light will be on as long the track exists
+      }
+    }
+
+    function offTorch () {
+      //Test browser support
+      const SUPPORTS_MEDIA_DEVICES = 'mediaDevices' in navigator;
+      let ImageCapture = window.ImageCapture;
+      if (SUPPORTS_MEDIA_DEVICES) {
+      //Get the environment camera (usually the second one)
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+          const cameras = devices.filter((device) => device.kind === 'videoinput');
+          if (cameras.length === 0) {
+            throw 'No camera found on this device.';
+          }
+          const camera = cameras[cameras.length - 1];
+          // Create stream and get video track
+          navigator.mediaDevices.getUserMedia({
+            video: {
+              deviceId: camera.deviceId,
+              facingMode: ['user', 'environment'],
+              height: {ideal: 1080},
+              width: {ideal: 1920}
+            }
+          }).then(stream => {
+            const track = stream.getVideoTracks()[0];
+            //Create image capture object and get camera capabilities
+            const imageCapture = new ImageCapture(track)
+            const photoCapabilities = imageCapture.getPhotoCapabilities().then(() => {
+              //todo: check if camera has a torch
+              //let there be light!
+              track.applyConstraints({
+                advanced: [{torch: false}]
+
+              })
+              // const btn = document.querySelector('.switch');
+              // btn.addEventListener('click', function(){
+              //   track.applyConstraints({
+              //     advanced: [{torch: false}]
+              //   });
+              // });
+            });
+          });
+        });
+      //The light will be on as long the track exists
+      }
+    }
 
     function getBuffer () {
       var beforeTime = new Date().getTime()/1000;
@@ -140,11 +143,11 @@ class App extends Component {
         console.log(response);
         afterTime = new Date().getTime()/1000;
         myPing = (afterTime-beforeTime)/2 + 100;
-        console.log("Before Time: ", beforeTime);
-        console.log("After Time: ", afterTime);
-        console.log("Ping: ", myPing);
+        // console.log("Before Time: ", beforeTime);
+        // console.log("After Time: ", afterTime);
+        // console.log("Ping: ", myPing);
         while (new Date().getTime()/1000 < response.data.nextUpdateAt.toFixed(3)+100){}
-        console.log("NEXT GETBUFFER");
+        //console.log("NEXT GETBUFFER");
       })
       .catch(error => console.log(error))
     }
@@ -157,6 +160,8 @@ class App extends Component {
       (function theLoop () {
         setTimeout(function () {
           getBuffer();
+          onTorch();
+          offTorch();
           //console.log(ping);
 
           // Start looped code
@@ -190,8 +195,7 @@ class App extends Component {
         <div className='button__container'>
           <button className='button' onClick={this.updatePhone}>L0cate me daddy</button>
 
-          <button className='switch' onClick={this.onTorch}>Flash me daddy</button>
-          <button className='switch' onClick={this.offTorch}>Unflash me daddy</button>
+
         </div>
       </div>
     )
