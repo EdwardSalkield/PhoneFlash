@@ -53,12 +53,12 @@ class flashserver(object):
            buffer = [[]]
            status = "GPS ERROR"
        #checking messy code soject 
-       try:
-           buffer = translate.translate(self.commands,self.starttime,cherrypy.session.id,cherrypy.session['la'],cherrypy.session['lo'])
-           status = "ok"
-       except:
-           buffer = [[]]
-           status = "translation error"
+       #try:
+       buffer = translate.translate(self.commands ,self.starttime,cherrypy.session.id,cherrypy.session['la'],cherrypy.session['lo'])
+       status = "ok"
+       #except:
+       #    buffer = [[]]
+       #    status = "translation error"
 
           
 

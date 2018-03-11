@@ -35,7 +35,7 @@ def barToCommands(patterns,locations,bpm):
         elif p == "toggleOB2":
             commands += onBeat.toggleOB2(i,  beatTime, barTime)
         # Test/hype building/space filling instruction. All dark for a bar
-        if p == "dark":
+        elif p == "dark":
             commands += fade.dark(i, beatTime, barTime)
     #print(commands)
     return commands

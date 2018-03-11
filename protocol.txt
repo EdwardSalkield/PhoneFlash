@@ -57,6 +57,10 @@ COMMANDS
 		}
 ]
 
+[
+	[time, on/off]
+]
+
 
 Commands are translaed into time-mapped dicts, per GPS grid location
 
