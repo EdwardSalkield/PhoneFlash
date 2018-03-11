@@ -1,3 +1,4 @@
+
 import cherrypy
 import json
 import time
@@ -38,12 +39,12 @@ class flashserver(object):
         #checking the song has started
        try:
             if (time.time()-self.starttime)%0.0472440944881<0.01:
-                state = True
+                state = "on"
             else:
-                state =False
+                state ="off" 
             
        except:
-                state = False
+                state = "off"
                 status = "song not started"
 
        """#checking valid gps
@@ -63,9 +64,9 @@ class flashserver(object):
        #    buffer = [[]]
        #    status = "translation error"
        """
-       status="ok"
+
        #payload={"status":status,"currenttime":time.time(),"buffer":buffer,"nextUpdateAt":time.time()+180}
-       payload = {"buffer":state}
+       payload = {"status":status,"currenttime":time.time(),"buffer":state}
        return json.dumps(payload)
 
 
