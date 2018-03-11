@@ -1,3 +1,5 @@
+from fade import dark
+
 
 def barToCommands(patterns,locations,bpm):
     # Finding the middle of the room to establish the boundary everyone is divided by
@@ -20,6 +22,8 @@ def barToCommands(patterns,locations,bpm):
             commands = lrAlternate(midpoint, i, commands, beatTime,barTime)
         elif p == "udAlternate":
             commands = udAlternate(midpoint, i, commands, beatTime,barTime)
+        elif p == "dark":
+            commands = dark(i, commands, beatTime,barTime)
     #print(commands)
     return commands
 
